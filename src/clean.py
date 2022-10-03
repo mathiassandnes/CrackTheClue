@@ -21,6 +21,8 @@ with open('data/res_cleaned.txt', 'w') as f:
 with open('data/res_transformed.txt', 'w') as f:
     for item in items_cleaned:
         item = item.replace(' ', '')
+        item = item.replace('"', '')
+        item = item.replace('-', '')
         item = item.lower()
         item = ''.join(set(item))
         item = ''.join(sorted(item))

@@ -1,17 +1,21 @@
 import itertools
 from tqdm import tqdm
 
-with open('data/res_cleaned.txt', 'r') as f:
+with open('../data/res_raw.txt', 'r') as f:
     items = f.read().splitlines()
 
-with open('data/res_transformed.txt', 'r') as f:
-    items2 = f.read().splitlines()
+with open('../data/res_candidates.txt', 'r') as f:
+    candidates = f.read().splitlines()
+
+with open('../data/res_short.txt', 'r') as f:
+    words = f.read().splitlines()
 
 
-def get_combinations(text, max_length=17):
+def get_combinations(text, mode='candidates', max_length=17):
     text = text.lower()
-    text = ''.join(set(text))
-    text = ''.join(sorted(text))
+    if mode == 'candidates':
+        text = ''.join(set(text))
+        text = ''.join(sorted(text))
     combinations_list = []
     for i in range(2, max_length):
         combinations = itertools.combinations(text, i)
@@ -20,36 +24,31 @@ def get_combinations(text, max_length=17):
     return combinations_list
 
 
-def memoize(f):
-    memo = {}
+def find_anagrams(text, mode='candidates'):
+    text_sorted = ''.join(sorted(text))
+    anagrams = get_combinations(text, mode=mode)
+    candidates_list = []
+    for anagram in tqdm(anagrams):
+        matches = []
+        for item, candidate, word in zip(items, candidates, words):
+            if anagram == candidate:
 
-    def helper(x):
-        if x not in memo:
-            memo[x] = f(x)
-        return memo[x]
-
-    return helper
-
-
-@memoize
-def get_items_with_length(length):
-    res = [i for i in zip(items, items2) if len(i[1]) == length]
-    return res
-
-
-def find_anagrams(text):
-    # with open('anagrams.txt', 'a') as f:
-    combinations = get_combinations(text)
-    matches = []
-    for combination in combinations:
-        # for value, value2 in get_items_with_length(len(combination)):
-        for value, value2 in zip(items, items2):
-            if combination == value2:
-                matches.append(value)
-                # f.write(f'{value} - {combination} \n')
+                candidates_list.append((item, candidate, word))
                 break
-    return matches
+
+    return candidates_list
 
 
 if __name__ == '__main__':
-    find_anagrams('poultry outwits ants')
+    candidates = find_anagrams('NNHTCTFPMFWNQMThessaliaTNW')
+    # matches = find_anagrams('NANHTBCATFHPMFWNQMTNW', mode='matches')
+    matches = sorted(candidates)
+    print(*matches, sep='\n')
+
+# TODO
+
+# Find combinations of anagrams
+# Search for items, locations and npcs
+
+# Find candidates for text
+# Use candidate to search for "words" candidates

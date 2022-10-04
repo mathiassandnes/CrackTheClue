@@ -25,24 +25,44 @@ def get_letter(index):
     return alphabet[index]
 
 
-texts_ = []
-for text in texts:
-    text1 = [get_index(text) for text in text[0][::-1]]
-    text2 = [get_index(text) for text in text[1]]
+for row in text:
+    # for a_, b_ in zip(row[0], row[1][::-1]):
+    #     a = get_index(a_)
+    #     b = get_index(b_)
+    #     print(get_letter((a + b) % 26), end='')
+    # print()
+    a, b = row
+    a = [get_index(letter) for letter in a]
+    b = [get_index(letter) for letter in b]
+    a = a[-1]
+    b = b[0]
 
-    text_ = [np.abs(a - b) for a, b in zip(text1, text2)]
-    text_ = [get_letter(text) for text in text_]
-    text_ = ''.join(text_)
-    texts_.append(text_)
+    diff = (a) + (b)
+    diff = diff % 26
+    diff = get_letter(diff)
+    print('a+b', diff)
 
-for x in texts_:
-    print(x)
+    diff = (a) - (b)
+    diff = diff % 26
+    diff = get_letter(diff)
+    print('a-b', diff)
 
-a = ['CFRBCJTNCPKHAEKPEB', 'HFHHPNMBGGNFSDJGJI', 'HQCRRCIQQNVSHMHARF', 'IMYBKIDJBPOHOTNRJJ', 'MDGOEOBFQDPMCIPJIC',
-     'SPMDQCJDCTNRIIEJBJ', 'EEADRDGGGIPEHHCJLC', 'UPEBHFJBVBCOLFRKTB', 'FIEDLBMQTCCHCKEGHB', 'EECNDNGBHGNSTFMMNT']
-
-b = ['MHBWFIJLTCMRBBLBGJ', 'IGDDWQCAAAOFPENECH', 'IJHKREHBQNGDNMAFYE', 'RNQOFHEKQANAPECZIA', 'FJDELRGHKDNTBHDGEF',
-     'FBDKDKNJHKTNEFLGPE', 'FHMCDFLGJHDBJVBDAB', 'NEIPKBBASEDGHCBCAG', 'BHBKSCAPNEDTBDDBGF', 'HEBDANHLNMBFTIEJNQ']
-
-c = ['BEPKEAHKPCNTJCBRFC', 'IJGJDSFNGGBMNPHHFH', 'FRAHMHSVNQQICRRCQH', 'JJRNTOHOPBJDIKBYMI', 'CIJPICMPDQFBOEOGDM',
-     'JBJEIIRNTCDJCQDMPS', 'CLJCHHEPIGGGDRDAEE', 'BTKRFLOCBVBJFHBEPU', 'BHGEKCHCCTQMBLDEIF', 'TNMMFTSNGHBGNDNCEE']
+    diff = (b) - (a)
+    diff = diff % 26
+    diff = get_letter(diff)
+    print('b-a', diff)
+    print()
+    # for letter in a:
+    #     if letter in b:
+    #         print(letter, end='')
+    #
+    # print('\n Left:')
+    # for letter in a:
+    #     if letter not in b:
+    #         print(letter, end='')
+    #
+    # print('\n Right:')
+    # for letter in b:
+    #     if letter not in a:
+    #         print(letter, end='')
+    # print('\n', a, b)

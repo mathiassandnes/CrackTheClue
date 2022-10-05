@@ -1,4 +1,4 @@
-with open('../data/f2p-npcs-items.csv', 'r') as f:
+with open('../data/fishing', 'r') as f:
     items = f.read().splitlines()
 
 items_cleaned = []

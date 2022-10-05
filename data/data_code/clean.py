@@ -1,4 +1,4 @@
-with open('../data/fishing', 'r') as f:
+with open('../fishing', 'r') as f:
     items = f.read().splitlines()
 
 items_cleaned = []
